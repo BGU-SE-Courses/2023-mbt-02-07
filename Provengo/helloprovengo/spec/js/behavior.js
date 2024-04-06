@@ -95,7 +95,7 @@ let actions2 = ["welcomeWindowToLoginWindow","loginAsTeacher", "enterCourse", "e
 let combos = []
 for (let i = 0; i < actions1.length; i++) {
     for (let j = 0; j < actions2.length; j++) {
-        combo.push([i, j])
+        combos.push([i, j])
     }
 }
 
