@@ -5,11 +5,11 @@
 const URL = 'https://sandbox.moodledemo.net/';
 
 const xpaths = {
-    welcomeWindow: {
+   welcomeWindow: {
     moveToLoginWindow: '//*[@id="usernavigation"]/div[5]/div/span/a',
     },
     courseWindow: {
-      startButton: "//*[@class=\"activitytitle media  modtype_survey position-relative align-self-start\"]",
+      startButton: "//*[@id=\"module-4\"]/div[2]/div[2]/div[1]/div/div/div/span/a[1]",
       setEditModeButton: "//*[@type=\"checkbox\"]",
       hamburgerMenu: "//*[@id=\"action-menu-7\"]",
       editSettings: "//*[@id=\"action-menu-7-menu\"]/a[1]/span",
