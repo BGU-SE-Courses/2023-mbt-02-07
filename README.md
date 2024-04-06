@@ -1,39 +1,42 @@
 # Software Quality Engineering - System Testing
+
 This is a repository for the system-testing assignment of the Software Quality Engineering course at the [Ben-Gurion University](https://in.bgu.ac.il/), Israel.
 
 ## Assignment Description
-In this assignment, we tested an open-source software called [$$*TODO* software name$$](https://address-of-the-project.com).
 
-$$*TODO* Add some general description about the software$$
+In this assignment, we tested an open-source software called [Moodle](https://sandbox.moodledemo.net/).
+
+Moodle is an open-source learning management system (LMS) widely used by educational institutions and organizations to deliver online courses and training programs. It offers a comprehensive set of features for course creation, content management, communication, assessment, and reporting. With Moodle, instructors can create interactive courses, facilitate discussions, assess student progress, and generate reports. The platform is highly customizable, allowing users to tailor it to their specific needs through themes, plugins, and add-ons. Supported by a large community of users and developers, Moodle provides extensive support, resources, and documentation, making it a popular choice for online learning worldwide.
 
 ## Installation
-$$*TODO* Write instructions on how to install the software and prepare the testing environment$$
+
+1. Selenium web driver with matching version to your Chrome version.
+2. For the Provengo part: up to date Google Chrome version that matches the chrome driver version.
+3. For the Cucumber project: java with Maven, Selenium Web Server .jar.
 
 ## What we tested
-$$*TODO* Add a description of the module and the user stories that you chose to test.
-For example, in the case of the Moodle example, you can write something like this:
 
-We tested the quiz module that allows for creating and taking quizzes. We chose to test the following user stories: 
+We tested the survey module that allows for creating and taking surveys, as well as managing access restrictions for surveys. We chose to test the following user stories:
 
-*User story:* A teacher adds a new quiz to the course with two yes/no questions
+*User Story 1:* A student starts answering a survey.
 
-*Preconditions:* There is a course with a teacher
+*Preconditions:* There is an existing course such that the student enrolled to, and an existing survey in this course such that the student is permitted to access to.
 
-*Expected outcome:* The quiz is added to the course.
+*Expected outcome:* The student is moving to the survey window and is able to answer it.
 
-*User story:* A students attempts a quiz and answers correctly.
+*User Story 2:* A teacher changes the access restrictions of an existing survey.
 
-*Preconditions:* There is a course with a quiz with two yes/no questions and the quiz grade is calculated automatically and the grade is visible to the students upon submission.
+*Preconditions:* There is an existing course such that the teacher is teaching, and an existing survey in this course.
 
-*Expected outcome:* The student receives 100.
-$$
+*Expected outcome:* The access restrictions to the survey changes with respect to the teacher's new restrictions, and student can access the quiz if and only if they match the new restrictions.
+
 
 ## How we tested
 We used two different testing methods:
 1. [Cucumber](https://cucumber.io/), a behavior-driven testing framework.
 2. [Provengo](https://provengo.tech/), a story-based testing framework.
 
-Each of the testing methods is elaborated in its own directory. 
+Each of the testing methods is elaborated in its own directory.
 
 ## Results
 Update all README.md files (except for d-e, see Section 1). Specifically, replace all $$*TODO*…$$ according to the instructions inside the $$.
@@ -41,7 +44,7 @@ Update all README.md files (except for d-e, see Section 1). Specifically, replac
 ## Detected Bugs
 We detected the following bugs:
 
-1. Bug 1: 
+1. Bug 1:
    1. General description: ...
    2. Steps to reproduce: ...
    3. Expected result: ...
@@ -49,4 +52,5 @@ We detected the following bugs:
    5. Link to the bug report: (you are encouraged to report the bug to the developers of the software)
 2. Bug 2: ...
 
-$$*TODO* if you did not detect the bug, you should delete this section$$  
+$$*TODO* if you did not detect the bug, you should delete this section$$
+$$
