@@ -1,4 +1,4 @@
-# Testing $$*TODO* software name$$ using Cucumber
+# Testing Moodle software name$$ using Cucumber
 
 This directory contains the cucumber files for testing the survey module of the Moodle application.
 
