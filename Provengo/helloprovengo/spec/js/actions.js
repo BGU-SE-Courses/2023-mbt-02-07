@@ -62,9 +62,6 @@ function enterCourse(session) {
 function enterSurvey(session) {
     with(session) {
         click(xpaths.courseWindow.startButton)
-        while(true){
-
-        }
     }
 }
 
@@ -90,9 +87,6 @@ function changeCourseRestrictions(session) {
         click(xpaths.editMenu.date)
         selectByValue(xpaths.editMenu.month,"12")
         click(xpaths.editMenu.saveButton)
-        while(true){
-
-        }
     }
 }
 /**

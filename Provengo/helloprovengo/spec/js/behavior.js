@@ -1,5 +1,19 @@
 /* @provengo summon selenium */
 
+let sequences = [
+    [ctrls.userLogin, ctrls.teacherLogin, ctrls.startedAnswering, ctrls.changedPermissions],
+    [ctrls.userLogin, ctrls.startedAnswering, ctrls.teacherLogin, ctrls.changedPermissions],
+    [ctrls.teacherLogin, ctrls.userLogin, ctrls.startedAnswering, ctrls.changedPermissions],
+    // are there any other possible sequences?
+    // use those for the goals
+]
+
+let ctrls = {
+    userLogin: Ctrl.markEvent("userLogin"),
+    teacherLogin: Ctrl.markEvent("teacherLogin"),
+    startedAnswering:  Ctrl.markEvent("startedAnswering"),
+    changedPermissions: Ctrl.markEvent("changedPermissions"),
+}
 
 bthread('Go To Login Window', function () {
     let s = new SeleniumSession('s1').start(URL)
@@ -10,6 +24,7 @@ bthread('User Login', function () {
     sync({
         waitFor: Event("welcomeWindowToLoginWindow")
     })
+    sync({request: ctrls.userLogin})
     sync(request(Event("loginAsStudent"), loginAsStudent(s)))
 })
 
@@ -29,7 +44,7 @@ bthread('Start Survey', function () {
         waitFor: Event("enterCourse")
     })
     sync({request: enterSurvey(s)})
-
+    sync({request: ctrls.startedAnswering})
 })
 
 
@@ -46,6 +61,7 @@ bthread('Login As Teacher', function () {
     sync({
         waitFor: Event("welcomeWindowToLoginWindow")
     })
+    sync({request: ctrls.teacherLogin})
     sync(request(Event("loginAsTeacher"), loginAsTeacher(s)))
 })
 
@@ -66,5 +82,6 @@ bthread('Change Access Permissions', function () {
     })
     enterEditMode(s)
     changeCourseRestrictions(s)
+    sync({request: ctrls.changedPermissions})
 
 })
