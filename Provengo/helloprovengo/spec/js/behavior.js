@@ -101,12 +101,13 @@ for (let i = 0; i < actions1.length; i++) {
 
 function markCombos(action1, action2) {
     combos.forEach(combo => {
-        bthread(`mark {action1} and {action2}`, function () {
-            sync({ waitFor: Event(`${action1} In s1 At ${combo[0]}`) })
-            sync({ waitFor: Event(`${action2} In s2 At ${combo[1]}`) })
+        bthread(`mark ${action1} and ${action2}`, function () {
             bp.log.info(`${action1} in s1 and ${action2} in s2 in order`)
-            (combo[0] < combo[1]) ? sync({ request: Ctrl.markEvent(`${action1} in s1 and ${action2} in s2 in order`) })
-                : sync({ request: Ctrl.markEvent(`${action2} in s2 and ${action1} in s1 in order`) })
+            sync({ waitFor: Ctrl.markEvent(`${action1} In s1 At ${combo[0]}`) })
+            sync({ waitFor: Ctrl.markEvent(`${action2} In s2 At ${combo[1]}`) })
+            bp.log.info(`${action1} in s1 and ${action2} in s2 in order`)
+            if (combo[0] < combo[1]) { sync({ request: Ctrl.markEvent(`${action1} in s1 and ${action2} in s2 in order`) }) }
+            else {sync({ request: Ctrl.markEvent(`${action2} in s2 and ${action1} in s1 in order`) })}
         }
         )
     }
