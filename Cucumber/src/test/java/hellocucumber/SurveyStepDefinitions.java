@@ -142,11 +142,24 @@ public class SurveyStepDefinitions {
             e.printStackTrace();
         }
         driver.findElement(By.id(dropDownId)).sendKeys(Keys.ESCAPE);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("id_roletoassign")));
+
 
         driver.findElement(By.id("id_roletoassign")).click();
         {
             WebElement dropdown = driver.findElement(By.id("id_roletoassign"));
-            dropdown.findElement(By.xpath("//option[. = 'Teacher']")).click();
+            Select dropdownSelect = new Select(dropdown);
+//            while(dropdown.findElements(By.xpath("//option[. = 'Teacher']")).size() == 0){
+//                try {
+//                    Thread.sleep(1000);
+//                } catch (InterruptedException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+            dropdownSelect.selectByValue("3");
+            dropdown.click();
+            
+//            dropdown.findElement(By.xpath("//option[. = 'Teacher']")).click();
         }
 
 
@@ -159,26 +172,6 @@ public class SurveyStepDefinitions {
 
 
 
-//        driver.findElement(By.xpath("//*[@id="+dropDownId+"]/span/span[1]")).click();
-
-        driver.findElement(By.id("yui_3_18_1_1_1712332058082_231")).click();
-        driver.findElement(By.id("yui_3_18_1_1_1712332058082_288")).click();
-        driver.findElement(By.id("yui_3_18_1_1_1712332058082_37")).click();
-        driver.findElement(By.id("form_autocomplete_input-1712332058319")).click();
-        driver.findElement(By.id("form_autocomplete_input-1712332058319")).click();
-        driver.findElement(By.id("form_autocomplete_input-1712332058319")).sendKeys("Terri Teacher");
-        driver.findElement(By.id("form_autocomplete_input-1712332058319")).sendKeys(Keys.ENTER);
-        driver.findElement(By.id("id_roletoassign")).click();
-        {
-          WebElement dropdown = driver.findElement(By.id("id_roletoassign"));
-          dropdown.findElement(By.xpath("//option[. = 'Teacher']")).click();
-        }
-        driver.findElement(By.id("yui_3_18_1_1_1712332058082_453")).click();
-        {
-          WebElement element = driver.findElement(By.cssSelector(".modal-footer > .btn-primary"));
-          Actions builder = new Actions(driver);
-          builder.moveToElement(element).perform();
-        }
 
 
 
