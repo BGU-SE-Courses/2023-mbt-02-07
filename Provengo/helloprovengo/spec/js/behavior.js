@@ -1,4 +1,11 @@
 /* @provengo summon selenium */
+/* @provengo summon ctrl */
+let ctrls = {
+    userLogin: Ctrl.markEvent("userLogin"),
+    teacherLogin: Ctrl.markEvent("teacherLogin"),
+    startedAnswering:  Ctrl.markEvent("startedAnswering"),
+    changedPermissions: Ctrl.markEvent("changedPermissions"),
+}
 
 let sequences = [
     [ctrls.userLogin, ctrls.teacherLogin, ctrls.startedAnswering, ctrls.changedPermissions],
@@ -8,12 +15,7 @@ let sequences = [
     // use those for the goals
 ]
 
-let ctrls = {
-    userLogin: Ctrl.markEvent("userLogin"),
-    teacherLogin: Ctrl.markEvent("teacherLogin"),
-    startedAnswering:  Ctrl.markEvent("startedAnswering"),
-    changedPermissions: Ctrl.markEvent("changedPermissions"),
-}
+
 
 bthread('Go To Login Window', function () {
     let s = new SeleniumSession('s1').start(URL)
@@ -85,3 +87,59 @@ bthread('Change Access Permissions', function () {
     sync({request: ctrls.changedPermissions})
 
 })
+let actions1 = ["welcomeWindowToLoginWindow","loginAsStudent", "enterCourse", "enterSurvey"]
+
+let actions2 = ["welcomeWindowToLoginWindow","loginAsTeacher", "enterCourse", "enterEditMode", "changeCourseRestrictions"]
+
+
+let combos = []
+for (let i = 0; i < actions1.length; i++) {
+    for (let j = 0; j < actions2.length; j++) {
+        combo.push([i, j])
+    }
+}
+
+function markCombos(action1, action2) {
+    combos.forEach(combo => {
+        bthread(`mark {action1} and {action2}`, function () {
+            sync({ waitFor: Event(`${action1} In s1 At ${combo[0]}`) })
+            sync({ waitFor: Event(`${action2} In s2 At ${combo[1]}`) })
+            bp.log.info(`${action1} in s1 and ${action2} in s2 in order`)
+            (combo[0] < combo[1]) ? sync({ request: Ctrl.markEvent(`${action1} in s1 and ${action2} in s2 in order`) })
+                : sync({ request: Ctrl.markEvent(`${action2} in s2 and ${action1} in s1 in order`) })
+        }
+        )
+    }
+    )
+}
+
+
+bthread(`mark actions`, function () {
+    const end = EventSet("", e => e.name.startsWith("end("));
+    let e = sync({ waitFor: end })
+    let session = e.data
+    let action =  e.name.split("(")[1].split(")")[0]    
+    let i = 0;
+    for (; i < actions1.length+actions2.length; i++) {
+        sync({request: Ctrl.markEvent(`${action} In ${session} At ${i}`)})
+        e = sync({ waitFor: end })
+        session = e.data
+        action =  e.name.split("(")[1].split(")")[0]  
+        bp.log.info(`Mark actions`)
+    }
+}
+)
+
+actions1.forEach(a1 => {
+    actions2.forEach(a2 => {
+        markCombos(a1, a2 )
+    })
+}
+)
+
+actions1.forEach(a1 => {
+    actions2.forEach(a2 => {
+        markCombos(a2, a1)
+    })
+}
+)

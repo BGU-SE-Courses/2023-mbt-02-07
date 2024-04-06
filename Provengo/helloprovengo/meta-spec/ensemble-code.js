@@ -3,11 +3,20 @@
 /**
  * List of events "of interest" that we want test suites to cover.
  */
-const GOALS = [
-    any(/Howdy/),
-    any(/Mars/),
-    Ctrl.markEvent("Classic!")
-];
+let g = [];
+for (let i = 0; i < actions1.length; i++) {
+    for (let j = 0; j < actions2.length; j++) {
+        bp.log.info(`${actions1[i]} in s1 and ${actions2[j]} in s2 in order`)
+        g.push(Ctrl.markEvent(`${actions1[i]} in s1 and ${actions2[j]} in s2 in order`))
+    }
+} 
+for (let i = 0; i < actions1.length; i++) {
+    for (let j = 0; j < actions2.length; j++) {
+        bp.log.info(`${actions2[j]} in s2 and ${actions1[i]} in s1 in order`)
+        g.push(Ctrl.markEvent(`${actions2[j]} in s2 and ${actions1[i]} in s1 in order`))
+    }
+} 
+const GOALS = g;
 
 const makeGoals = function(){
     return [ [ any(/Howdy/), any(/Venus/) ],

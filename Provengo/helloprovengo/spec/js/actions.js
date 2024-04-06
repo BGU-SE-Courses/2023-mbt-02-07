@@ -27,11 +27,13 @@
  * @param session
  */
 function loginAsStudent(session) {
+    sync({request : Event("start(loginAsStudent)")})
     with(session) {
         session.writeText(xpaths.loginWindow.username, "student")
         session.writeText(xpaths.loginWindow.password, "sandbox")
         click(xpaths.loginWindow.loginButton)
     }
+    sync({request: Event("end(loginAsStudent)",  session.name)})
 }
 
 /**
@@ -39,30 +41,35 @@ function loginAsStudent(session) {
  */
 
 function loginAsTeacher(session) {
-    with(session) {
+    sync({request : Event("start(loginAsTeacher)")})
+    with (session) {
         session.writeText(xpaths.loginWindow.username, "teacher")
         session.writeText(xpaths.loginWindow.password, "sandbox")
         click(xpaths.loginWindow.loginButton)
     }
-
+    sync({request: Event("end(loginAsTeacher)",  session.name)})
 }
 
 /**
  * Enter a course from the main window
  */
 function enterCourse(session) {
-    with(session) {
+    sync({request : Event("start(enterCourse)")})  
+    with (session) {
         click(xpaths.mainWindow.courseButton)
     }
+    sync({request: Event("end(enterCourse)",  session.name)})
 }
 
 /**
  * Start answering a survey
  */
 function enterSurvey(session) {
+    sync({request : Event("start(enterSurvey)")})
     with(session) {
         click(xpaths.courseWindow.startButton)
     }
+    sync({request: Event("end(enterSurvey)",  session.name)})
 }
 
 
@@ -70,15 +77,18 @@ function enterSurvey(session) {
  * Enter edit mode in the course window
  */
 function enterEditMode(session) {
+    sync({request : Event("start(enterEditMode)")}) 
     with(session) {
         click(xpaths.courseWindow.setEditModeButton)
     }
+    sync({request: Event("end(enterEditMode)",  session.name)})
 }
 
 /**
  * Change course restrictions to a later date
  */
 function changeCourseRestrictions(session) {
+    sync({request : Event("start(changeCourseRestrictions)")})
     with(session) {
         click(xpaths.courseWindow.hamburgerMenu)
         click(xpaths.courseWindow.editSettings)
@@ -88,14 +98,17 @@ function changeCourseRestrictions(session) {
         selectByValue(xpaths.editMenu.month,"12")
         click(xpaths.editMenu.saveButton)
     }
+    sync({request: Event("end(changeCourseRestrictions)",  session.name)})
 }
 /**
  * Move From Welcome Window to the User Login Window
  */
 function welcomeWindowToLoginWindow(session) {
+    sync({request : Event("start(welcomeWindowToLoginWindow)")})
     with (session) {
         click(xpaths.welcomeWindow.moveToLoginWindow);
     }
+    sync({request: Event("end(welcomeWindowToLoginWindow)", session.name)})
 }
 
 // /**
