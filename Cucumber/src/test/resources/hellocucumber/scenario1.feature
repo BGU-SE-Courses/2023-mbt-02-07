@@ -9,9 +9,10 @@
 
 #Student starts answering a survey ; Teacher changes the access restrictions.
 
+  #TODO parametrize it
 Feature: Testing the "example" module
 
   Scenario: A student starts answering a survey which is then restricted by the teacher
-    Given a survey that is open to students and a student starts answering it
-    When the teacher changes the access restrictions
-    Then the student is unable to submit the survey
+    Given a survey in a course that is open for a student
+    When student attempts to open the survey
+    Then the survey opens

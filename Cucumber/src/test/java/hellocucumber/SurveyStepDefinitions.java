@@ -18,7 +18,7 @@ public class SurveyStepDefinitions {
     private final static String CHROME_DRIVER_PATH = "../Selenium/chromedriver.exe";
     private ChromeDriver driver;
     private WebDriverWait wait;
-    @Given("a survey that is open to students and a student starts answering it")
+    @Given("a survey in a course that is open for a student")
     public void aSurveyThatIsOpenToStudentsAndAStudentStartsAnsweringIt() {
 
         //opening moodle
@@ -171,20 +171,64 @@ public class SurveyStepDefinitions {
         /** added teacher to course*/
 
 
+        /** Adding the quiz*/
+        driver.findElement(By.linkText("Course")).click();
+//        driver.findElement(By.id("66116443ddb10661164422fcbe8-editingswitch")).click();
+        driver.findElement( By.xpath("//*[@type=\"checkbox\"]")).click();
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("#coursecontentcollapse0 .activity-add-text")));
+        driver.findElement(By.cssSelector("#coursecontentcollapse0 .activity-add-text")).click();
 
-
-
-
+//        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"all-5\"]/div/div[17]")));
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@aria-label='Survey']")));
+//        wait.until(ExpectedConditions.numberOfElementsToBe())
+        driver.findElement(By.cssSelector(".option:nth-child(17) .optionicon")).click();
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("id_name")));
+        driver.findElement(By.id("id_name")).click();
+        driver.findElement(By.id("id_name")).sendKeys("testSurvey");
+        driver.findElement(By.id("id_template")).click();
+        {
+            WebElement dropdown = driver.findElement(By.id("id_template"));
+            dropdown.findElement(By.xpath("//option[. = 'ATTLS (20 item version)']")).click();
+        }
+        driver.findElement(By.id("id_submitbutton")).click();
+        //TODO maybe add a logout here
+        driver.findElement(By.id("user-menu-toggle")).click();
+        driver.findElement(By.linkText("Log out")).click();
 
 
 
     }
 
-    @When("the teacher changes the access restrictions")
-    public void theTeacherChangesTheAccessRestrictions() {
+    @When("student attempts to open the survey")
+    public void studentAttemptsToOpenTheSurvey() {
+//        driver.get("https://sandbox.moodledemo.net");
+
+        wait.until(webDriver -> driver.findElement(By.linkText("Log in")).isDisplayed());//TODO remove this
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.linkText("Log in")));
+
+        driver.findElement(By.linkText("Log in")).click();
+
+        wait.until(webDriver -> driver.findElement(By.id("username")).isDisplayed());
+
+        driver.findElement(By.id("username")).click();
+        // driver.findElement(By.xpath("//* [@id='username']")).click();
+        WebElement usernameTextbox = driver.findElement(By.id("username"));
+        usernameTextbox.clear();
+        usernameTextbox.sendKeys("student");
+        driver.findElement(By.id("password")).sendKeys("sandbox");
+        driver.findElement(By.id("loginbtn")).click();
+
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.linkText("TestingSurvey")));
+        driver.findElement(By.linkText("TestingSurvey")).click();
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".modtype_survey .aalink")));
+        driver.findElement(By.cssSelector(".modtype_survey .aalink")).click();
+//        driver.findElement(By.cssSelector(".h2")).click();
+        assert driver.findElement(By.id("page-mod-survey-view")) != null;
+
+
     }
 
-    @Then("the student is unable to submit the survey")
-    public void theStudentIsUnableToSubmitTheSurvey() {
+    @Then("the survey opens")
+    public void theSurveyOpens() {
     }
 }
