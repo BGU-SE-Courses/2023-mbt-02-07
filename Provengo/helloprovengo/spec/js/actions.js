@@ -28,7 +28,8 @@
  */
 function loginAsStudent(session) {
     sync({request : Event("start(loginAsStudent)")})
-    with(session) {
+    with (session) {
+        click(xpaths.welcomeWindow.moveToLoginWindow);
         session.writeText(xpaths.loginWindow.username, "student")
         session.writeText(xpaths.loginWindow.password, "sandbox")
         click(xpaths.loginWindow.loginButton)
@@ -43,6 +44,7 @@ function loginAsStudent(session) {
 function loginAsTeacher(session) {
     sync({request : Event("start(loginAsTeacher)")})
     with (session) {
+        click(xpaths.welcomeWindow.moveToLoginWindow);
         session.writeText(xpaths.loginWindow.username, "teacher")
         session.writeText(xpaths.loginWindow.password, "sandbox")
         click(xpaths.loginWindow.loginButton)
@@ -54,11 +56,11 @@ function loginAsTeacher(session) {
  * Enter a course from the main window
  */
 function enterCourse(session) {
-    sync({request : Event("start(enterCourse)")})  
+    sync({request : Event("start(enterCourseTeacher)")})  
     with (session) {
         click(xpaths.mainWindow.courseButton)
     }
-    sync({request: Event("end(enterCourse)",  session.name)})
+    sync({request: Event("end(enterCourseTeacher)",  session.name)})
 }
 
 /**
@@ -111,6 +113,13 @@ function welcomeWindowToLoginWindow(session) {
     sync({request: Event("end(welcomeWindowToLoginWindow)", session.name)})
 }
 
+function welcomeWindowToLoginWindowTeacher(session) {
+    sync({request : Event("start(welcomeWindowToLoginWindowTeacher)")})
+    with (session) {
+        click(xpaths.welcomeWindow.moveToLoginWindow);
+    }
+    sync({request: Event("end(welcomeWindowToLoginWindowTeacher)", session.name)})
+}
 // /**
 //  * After getting to the course window as a teacher, add a new survey with a specified name
 //  */
