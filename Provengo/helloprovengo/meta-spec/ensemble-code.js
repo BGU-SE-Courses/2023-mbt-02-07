@@ -11,21 +11,49 @@ const GOALS = [
  * List of events "of interest" that we want test suites to cover.
  */
 
-// two ways 
+// two ways
 // let g = [];
 // for (let i = 0; i < actions1.length; i++) {
 //     for (let j = 0; j < actions2.length; j++) {
 //         if(actions2[j] == "changeCourseRestrictions" && actions1[i] == "enterSurvey" && j<i) continue;
 //         g.push(Ctrl.markEvent(`${actions1[i]} in s1 and ${actions2[j]} in s2 in order`))
 //     }
-// } 
+// }
 // for (let i = 0; i < actions1.length; i++) {
 //     for (let j = 0; j < actions2.length; j++) {
 //         if(actions2[j] == "changeCourseRestrictions" && actions1[i] == "enterSurvey" && j<i) continue;
 //         g.push(Ctrl.markEvent(`${actions2[j]} in s2 and ${actions1[i]} in s1 in order`))
 //     }
-// } 
+// }
 // const GOALS = g;
+function interleaveLists(list1, list2) {
+    if (list1.length === 0) {
+        return [list2];
+    }
+    if (list2.length === 0) {
+        return [list1];
+    }
+
+    let results = [];
+
+    for (const interleaved of interleaveLists(list1.slice(1), list2)) {
+        results.push([list1[0], ...interleaved]);
+    }
+
+    for (const interleaved of interleaveLists(list1, list2.slice(1))) {
+        results.push([list2[0], ...interleaved]);
+    }
+
+    return results;
+}
+const actions11 = ["loginAsStudent", "enterCourse", "enterSurvey"];
+const actions21 = ["loginAsTeacher", "enterCourseTeacher", "changeCourseRestrictions"];
+const interleaved = interleaveLists(actions1, actions2);
+const res1 = interleaved.filter(x => x.indexOf("enterSurvey") < x.indexOf("changeCourseRestrictions"));
+const res2 = interleaved.filter(y => y.indexOf("enterSurvey") > y.indexOf("changeCourseRestrictions")).map(y => y.slice(0, -1));
+let res = res1.concat(res2);
+let gg = res.join("");
+
 
 const makeGoals = function(){
     return [ [ any(/Howdy/), any(/Venus/) ],

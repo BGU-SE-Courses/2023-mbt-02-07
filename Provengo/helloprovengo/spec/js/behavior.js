@@ -136,13 +136,14 @@ bthread(`mark for domain`, function () {
 
 
 bthread(`mark for two ways`, function () {
-    let e = sync({ waitFor: endSet })
+    const end = EventSet("", e => e.name.startsWith("end("));
+    let e = sync({ waitFor: end })
     let session = e.data
     let action = e.name.split("(")[1].split(")")[0]
     let arr = []
-    while (action != "changeCourseRestrictions") {
+    while( arr.indexOf("changeCourseRestrictions")== -1 || ((arr.indexOf( "changeCourseRestrictions") != -1) && arr.length < 6) ){
         arr.push(action)
-        e = sync({ waitFor: endSet })
+        e = sync({ waitFor: end })
         session = e.data
         action = e.name.split("(")[1].split(")")[0]
     }
