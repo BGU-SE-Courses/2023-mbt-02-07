@@ -45,7 +45,6 @@ provengo run --show-sessions moodle
 The test data is in [data.js](moodle/data/data.js), the set of possible actions is in [actions.js](moodle/spec/js/actions.js), and the behavior of the system is in [behavior.js](moodle/spec/js/behavior.js).
 See the files for a detailed description.
 
-$$*TODO*: Make sure that the text inside the files is informative, self-explanatory, and properly written (meaningful variable names, no magic number, etc.). Specifically, write for each bthread a comment that explain what it does and make sure that the bthread's name reflects its purpose. See the file for an example.$$
 
 ## How we tested the system
 
