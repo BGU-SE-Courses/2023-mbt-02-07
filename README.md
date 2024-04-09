@@ -50,4 +50,3 @@ We detected the following bugs:
    3. Expected result: To be able to log in to the course as the added student
    4. Actual result: Student isn't able to enter.
    5. unfortunately, we weren't able to find a way to contact the developers
-$$
