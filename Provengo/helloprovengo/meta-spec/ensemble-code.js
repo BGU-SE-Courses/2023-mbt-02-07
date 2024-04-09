@@ -2,10 +2,10 @@
 
 //domain specific
 const GOALS = [
+    Ctrl.markEvent("changeCourseRestrictions In s2 At 2"),
     Ctrl.markEvent("changeCourseRestrictions In s2 At 3"),
     Ctrl.markEvent("changeCourseRestrictions In s2 At 4"),
-    Ctrl.markEvent("changeCourseRestrictions In s2 At 5"),
-    Ctrl.markEvent("changeCourseRestrictions In s2 At 6")
+    Ctrl.markEvent("changeCourseRestrictions In s2 At 5")
 ];
 /**
  * List of events "of interest" that we want test suites to cover.
@@ -47,7 +47,7 @@ function interleaveLists(list1, list2) {
 }
 const actions11 = ["loginAsStudent", "enterCourse", "enterSurvey"];
 const actions21 = ["loginAsTeacher", "enterCourseTeacher", "changeCourseRestrictions"];
-const interleaved = interleaveLists(actions1, actions2);
+const interleaved = interleaveLists(actions11, actions21);
 const res1 = interleaved.filter(x => x.indexOf("enterSurvey") < x.indexOf("changeCourseRestrictions"));
 const res2 = interleaved.filter(y => y.indexOf("enterSurvey") > y.indexOf("changeCourseRestrictions")).map(y => y.slice(0, -1));
 let res = res1.concat(res2);
