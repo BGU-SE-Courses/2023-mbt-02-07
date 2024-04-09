@@ -28,7 +28,7 @@ We tested the survey module that allows for creating and taking surveys, as well
 
 *Preconditions:* There is an existing course such that the teacher is teaching, and an existing survey in this course.
 
-*Expected outcome:* The access restrictions to the survey changes with respect to the teacher's new restrictions, and student can access the quiz if and only if they match the new restrictions.
+*Expected outcome:* The access restrictions to the survey changes with respect to the teacher's new restrictions, and students can access the quiz if and only if they match the new restrictions.
 
 
 ## How we tested
@@ -45,12 +45,8 @@ Update all README.md files (except for d-e, see Section 1). Specifically, replac
 We detected the following bugs:
 
 1. Bug 1:
-   1. General description: ...
-   2. Steps to reproduce: ...
-   3. Expected result: ...
-   4. Actual result: ...
-   5. Link to the bug report: (you are encouraged to report the bug to the developers of the software)
-2. Bug 2: ...
-
-$$*TODO* if you did not detect the bug, you should delete this section$$
-$$
+   1. General description: Students/Teachers can't enter a course they are registered to, this happens mostly in the evening.
+   2. Steps to reproduce: After 7 pm, as an admin create a new course, then add a new student and a teacher to it. then, log out from the admin and log in as a student. 
+   3. Expected result: To be able to log in to the course as the added student
+   4. Actual result: Student isn't able to enter.
+   5. unfortunately, we weren't able to find a way to contact the developers
