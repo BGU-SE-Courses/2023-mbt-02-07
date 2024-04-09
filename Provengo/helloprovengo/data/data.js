@@ -25,7 +25,7 @@ const xpaths = {
     editMenu: {
         editSettings: '//*[@id="action-menu-7-menu"]/a[1]/span',
         restricitionMenu: "//*[@id=\"collapseElement-2\"]",
-        addRestriction: "//*[@class=\"btn btn-secondary mt-1\"]",
+        addRestriction: "/html/body/div[5]/div[5]/div/div[3]/div/section/div[2]/form/fieldset[3]/div[2]/div/div[2]/div[1]/div/div[1]/div[5]/button",
         date: "//*[@class=\"btn btn-secondary w-100\"]",
         month: "//*[@name=\"x[month]\"]",
         saveButton: "//*[@id=\"id_submitbutton2\"]",

@@ -90,8 +90,8 @@ let sequences = [
 // })
 
 
-let endSet = [Event("end(loginAsStudent)"), Event("end(loginAsTeacher)"), Event("end(enterCourseTeacher)"),
-Event("end(enterCourse)"), Event("end(changeCourseRestrictions)"), Event("end(enterSurvey)")]
+// let endSet = [Event("end(loginAsStudent)"), Event("end(loginAsTeacher)"), Event("end(enterCourseTeacher)"),
+// Event("end(enterCourse)"), Event("end(changeCourseRestrictions)"), Event("end(enterSurvey)")]
 
 bthread('Student session', function () {
     let s = new SeleniumSession('s1').start(URL)
@@ -99,57 +99,55 @@ bthread('Student session', function () {
     enterCourse(s)
     enterSurvey(s)
 })
+
 bthread('Teacher session', function () {
     let s = new SeleniumSession('s2').start(URL)
     loginAsTeacher(s)
-    enterCourse(s)
+    enterCourseTeacher(s)
     changeCourseRestrictions(s)
 })
+
 bthread('block in case', function () {
     sync({ waitFor: Event("end(changeCourseRestrictions)") })
-    sync({ block: Event("end(enterSurvey)") })
-}
-)
+    sync({block: Event("end(enterSurvey)")})
+})
 
 let actions1 = ["loginAsStudent", "enterCourse", "enterSurvey"]
 
 let actions2 = ["loginAsTeacher", "enterCourseTeacher", "changeCourseRestrictions"]
 
-bthread(`mark for domain`, function () {
-    const end = EventSet("", e => e.name.startsWith("end("));
-    let e = sync({ waitFor: end })
-    let session = e.data
-    let action =  e.name.split("(")[1].split(")")[0]
-    let i = 0;
-    let b = false;
-    for (; i < actions1.length + actions2.length && !b; i++) {
-        if (action == "changeCourseRestrictions") {
-            sync({ request: Ctrl.markEvent(`changeCourseRestrictions In s2 At ${i}`) })
-            b = true
-        }
-        e = sync({ waitFor: end })
-        session = e.data
-        action =  e.name.split("(")[1].split(")")[0]  
-    }
-}
-)
 
+// bthread(`mark for domain`, function () {
+//     const end = EventSet("", e => e.name.startsWith("end("));
+//     let e = sync({ waitFor: end })
+//     let session = e.data
+//     let action =  e.name.split("(")[1].split(")")[0]
+//     let i = 0;
+//     let b = false;
+//     for (; i < actions1.length + actions2.length && !b; i++) {
+//         if (action == "changeCourseRestrictions") {
+//             sync({ request: Ctrl.markEvent(`changeCourseRestrictions In s2 At ${i}`) })
+//             b = true
+//         }
+//         e = sync({ waitFor: end })
+//         session = e.data
+//         action =  e.name.split("(")[1].split(")")[0]  
+//     }
+// }
+// )
 
-bthread(`mark for two ways`, function () {
-    const end = EventSet("", e => e.name.startsWith("end("));
-    let e = sync({ waitFor: end })
-    let session = e.data
-    let action = e.name.split("(")[1].split(")")[0]
-    let arr = []
-    while( arr.indexOf("changeCourseRestrictions")== -1 || ((arr.indexOf( "changeCourseRestrictions") != -1) && arr.length < 6) ){
-        arr.push(action)
-        e = sync({ waitFor: end })
-        session = e.data
-        action = e.name.split("(")[1].split(")")[0]
-    }
-    let s = arr.join(" ")
-    sync({ request: Ctrl.markEvent(`${s}`) })
-})
         
-
-
+bthread(`mark for two ways`, function () {
+    const end = EventSet("", e => (e.name.startsWith("end(") || e.name.startsWith("start(")))
+    let e = sync({ waitFor: end })
+    let action = e.name
+    let arr = []
+    arr.push(action)
+    while ((arr.length < 12 && arr.indexOf("end(changeCourseRestrictions)") === -1) || (arr.length < 11 ))  {
+        e = sync({ waitFor: end })
+        action = e.name
+        arr.push(action)
+    }
+    let s = (arr.filter(x => x.startsWith("end("))).map(x=>x.split("(")[1].split(")")[0]).join(" ")
+    sync({ request: Ctrl.markEvent(s) })
+})

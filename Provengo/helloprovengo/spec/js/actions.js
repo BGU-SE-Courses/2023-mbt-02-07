@@ -56,6 +56,15 @@ function loginAsTeacher(session) {
  * Enter a course from the main window
  */
 function enterCourse(session) {
+    sync({request : Event("start(enterCourse)")})  
+    with (session) {
+        click(xpaths.mainWindow.courseButton)
+    }
+    sync({request: Event("end(enterCourse)",  session.name)})
+}/**
+ * Enter a course from the main window
+ */
+function enterCourseTeacher(session) {
     sync({request : Event("start(enterCourseTeacher)")})  
     with (session) {
         click(xpaths.mainWindow.courseButton)
