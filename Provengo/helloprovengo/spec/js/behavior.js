@@ -140,7 +140,7 @@ bthread(`mark for two ways`, function () {
     let session = e.data
     let action = e.name.split("(")[1].split(")")[0]
     let arr = []
-    while () {
+    while (action != "changeCourseRestrictions") {
         arr.push(action)
         e = sync({ waitFor: endSet })
         session = e.data
