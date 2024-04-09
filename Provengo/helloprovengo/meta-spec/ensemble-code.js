@@ -6,7 +6,6 @@ const GOALS = [
     Ctrl.markEvent("changeCourseRestrictions In s2 At 4"),
     Ctrl.markEvent("changeCourseRestrictions In s2 At 5"),
     Ctrl.markEvent("changeCourseRestrictions In s2 At 6")
-    
 ];
 /**
  * List of events "of interest" that we want test suites to cover.

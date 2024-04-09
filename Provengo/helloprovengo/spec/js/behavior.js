@@ -90,7 +90,8 @@ let sequences = [
 // })
 
 
-let endSet = [Event("end(loginAsStudent)"),Event("end(loginAsTeacher)"),Event("end(enterCourseTeacher)"),Event("end(enterCourse)"),Event("end(enterEditMode)"),Event("end(changeCourseRestrictions)"),Event("end(enterSurvey)")]
+let endSet = [Event("end(loginAsStudent)"), Event("end(loginAsTeacher)"), Event("end(enterCourseTeacher)"),
+Event("end(enterCourse)"), Event("end(changeCourseRestrictions)"), Event("end(enterSurvey)")]
 
 bthread('Student session', function () {
     let s = new SeleniumSession('s1').start(URL)
@@ -102,18 +103,17 @@ bthread('Teacher session', function () {
     let s = new SeleniumSession('s2').start(URL)
     loginAsTeacher(s)
     enterCourse(s)
-    enterEditMode(s)
     changeCourseRestrictions(s)
 })
 bthread('block in case', function () {
     sync({ waitFor: Event("end(changeCourseRestrictions)") })
-    sync({ block: Event("start(enterSurvey)") })
+    sync({ block: Event("end(enterSurvey)") })
 }
 )
 
 let actions1 = ["loginAsStudent", "enterCourse", "enterSurvey"]
 
-let actions2 = ["loginAsTeacher", "enterCourseTeacher", "enterEditMode", "changeCourseRestrictions"]
+let actions2 = ["loginAsTeacher", "enterCourseTeacher", "changeCourseRestrictions"]
 
 bthread(`mark for domain`, function () {
     const end = EventSet("", e => e.name.startsWith("end("));
@@ -134,32 +134,13 @@ bthread(`mark for domain`, function () {
 }
 )
 
-// let combos = []
-// for (let i = 0; i < actions1.length; i++) {
-//     for (let j = i+1; j < actions1.length+actions2.length; j++) {
-//         combos.push([i, j])
-//     }
-// }
-
-// function markCombos(action1, action2) {
-//     combos.forEach(combo => {
-//         bthread(`mark ${action1} and ${action2}`, function () {
-//             sync({ waitFor: Ctrl.markEvent(`${action1} In s1 At ${combo[0]}`) })
-//             sync({ waitFor: Ctrl.markEvent(`${action2} In s2 At ${combo[1]}`) })
-//             if (combo[0] < combo[1]) { sync({ request: Ctrl.markEvent(`${action1} in s1 and ${action2} in s2 in order`) }) }
-//             else {sync({ request: Ctrl.markEvent(`${action2} in s2 and ${action1} in s1 in order`) })}
-//         }
-//         )
-//     }
-//     )
-// }
 
 bthread(`mark for two ways`, function () {
     let e = sync({ waitFor: endSet })
     let session = e.data
     let action = e.name.split("(")[1].split(")")[0]
     let arr = []
-    while (action != "changeCourseRestrictions") {
+    while () {
         arr.push(action)
         e = sync({ waitFor: endSet })
         session = e.data
@@ -171,16 +152,3 @@ bthread(`mark for two ways`, function () {
         
 
 
-// actions1.forEach(a1 => {
-//     actions2.forEach(a2 => {
-//         markCombos(a1, a2 )
-//     })
-// }
-// )
-
-// actions1.forEach(a1 => {
-//     actions2.forEach(a2 => {
-//         markCombos(a2, a1)
-//     })
-// }
-// )

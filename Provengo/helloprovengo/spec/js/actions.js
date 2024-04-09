@@ -75,23 +75,15 @@ function enterSurvey(session) {
 }
 
 
-/**
- * Enter edit mode in the course window
- */
-function enterEditMode(session) {
-    sync({request : Event("start(enterEditMode)")}) 
-    with(session) {
-        click(xpaths.courseWindow.setEditModeButton)
-    }
-    sync({request: Event("end(enterEditMode)",  session.name)})
-}
+
 
 /**
  * Change course restrictions to a later date
  */
 function changeCourseRestrictions(session) {
     sync({request : Event("start(changeCourseRestrictions)")})
-    with(session) {
+    with (session) {
+        click(xpaths.courseWindow.setEditModeButton)
         click(xpaths.courseWindow.hamburgerMenu)
         click(xpaths.courseWindow.editSettings)
         click(xpaths.editMenu.restricitionMenu)
@@ -105,21 +97,7 @@ function changeCourseRestrictions(session) {
 /**
  * Move From Welcome Window to the User Login Window
  */
-function welcomeWindowToLoginWindow(session) {
-    sync({request : Event("start(welcomeWindowToLoginWindow)")})
-    with (session) {
-        click(xpaths.welcomeWindow.moveToLoginWindow);
-    }
-    sync({request: Event("end(welcomeWindowToLoginWindow)", session.name)})
-}
 
-function welcomeWindowToLoginWindowTeacher(session) {
-    sync({request : Event("start(welcomeWindowToLoginWindowTeacher)")})
-    with (session) {
-        click(xpaths.welcomeWindow.moveToLoginWindow);
-    }
-    sync({request: Event("end(welcomeWindowToLoginWindowTeacher)", session.name)})
-}
 // /**
 //  * After getting to the course window as a teacher, add a new survey with a specified name
 //  */
