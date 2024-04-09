@@ -35,15 +35,14 @@ function interleaveLists(list1, list2) {
     }
 
     let results = [];
-
-    for (const interleaved of interleaveLists(list1.slice(1), list2)) {
-        results.push([list1[0], ...interleaved]);
+    for (let i = 0; i < list1.length; i++) {
+        let head1 = list1[i];
+        let tail1 = list1.slice(0, i).concat(list1.slice(i + 1));
+        let interleave1 = interleaveLists(tail1, list2);
+        for (let j = 0; j < interleave1.length; j++) {
+            results.push([head1].concat(interleave1[j]));
+        }
     }
-
-    for (const interleaved of interleaveLists(list1, list2.slice(1))) {
-        results.push([list2[0], ...interleaved]);
-    }
-
     return results;
 }
 const actions11 = ["loginAsStudent", "enterCourse", "enterSurvey"];
