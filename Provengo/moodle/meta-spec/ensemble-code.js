@@ -1,6 +1,7 @@
 // @provengo summon ctrl
 
-//domain specific
+// domain specific
+//we want to test the behavior of the student and the teacher by changing the restrictions of the survey
 // const GOALS = [
 //     Ctrl.markEvent("changeCourseRestrictions In s2 At 2"),
 //     Ctrl.markEvent("changeCourseRestrictions In s2 At 3"),
@@ -10,7 +11,11 @@
 /**
  * List of events "of interest" that we want test suites to cover.
  */
-//two ways
+// two ways
+let actions1 = ["loginAsStudent", "enterCourse", "enterSurvey"]
+
+let actions2 = ["loginAsTeacher", "enterCourseTeacher", "changeCourseRestrictions"]
+
 function interleave_lists(list1, list2) {
     if (list1.length === 0) {
         return [list2];
@@ -33,37 +38,18 @@ function interleave_lists(list1, list2) {
     return results;
 }
 
-const interleaved = interleave_lists(actions1, actions2);
-const res1 = interleaved.filter(x => x.indexOf("enterSurvey") < x.indexOf("changeCourseRestrictions"));
-const res2 = interleaved.filter(y => y.indexOf("enterSurvey") > y.indexOf("changeCourseRestrictions")).map(y => y.slice(0, -1));
-const res = res1.concat(res2);
+const interleaved = interleave_lists(actions1, actions2); // returns all possible interleavings of actions1 and actions2
+const res1 = interleaved.filter(x => x.indexOf("enterSurvey") < x.indexOf("changeCourseRestrictions"));// we genarate all possible interleavings of actions1 and actions2 and then filter the ones that have enterSurvey before changeCourseRestrictions
+const res2 = interleaved.filter(y => y.indexOf("enterSurvey") > y.indexOf("changeCourseRestrictions")).map(y => y.slice(0, -1));    // we genarate all possible interleavings of actions1 and actions2 and then filter the ones that have enterSurvey after changeCourseRestrictions
+const res = res1.concat(res2);  // we concatenate the two lists to get all possible interleavings of actions1 and actions2 that have enterSurvey before changeCourseRestrictions and the ones that have enterSurvey after changeCourseRestrictions
 
 let g = []
+
 for (let x of res) {
     g.push(Ctrl.markEvent(x.join(" ")));
     bp.log.info(x.join(" "));
 }
-// let g = ["loginAsStudent enterCourse enterSurvey loginAsTeacher enterCourseTeacher changeCourseRestrictions",
-//     "loginAsStudent enterCourse loginAsTeacher enterSurvey enterCourseTeacher changeCourseRestrictions",
-//     "loginAsStudent enterCourse loginAsTeacher enterCourseTeacher enterSurvey changeCourseRestrictions",
-//     "loginAsStudent loginAsTeacher enterCourse enterSurvey enterCourseTeacher changeCourseRestrictions",
-//     "loginAsStudent loginAsTeacher enterCourse enterCourseTeacher enterSurvey changeCourseRestrictions",
-//     "loginAsStudent loginAsTeacher enterCourseTeacher enterCourse enterSurvey changeCourseRestrictions",
-//     "loginAsTeacher loginAsStudent enterCourse enterSurvey enterCourseTeacher changeCourseRestrictions",
-//     "loginAsTeacher loginAsStudent enterCourse enterCourseTeacher enterSurvey changeCourseRestrictions",
-//     "loginAsTeacher loginAsStudent enterCourseTeacher enterCourse enterSurvey changeCourseRestrictions",
-//     "loginAsTeacher enterCourseTeacher loginAsStudent enterCourse enterSurvey changeCourseRestrictions",
-//     "loginAsStudent enterCourse loginAsTeacher enterCourseTeacher changeCourseRestrictions",
-//     "loginAsStudent loginAsTeacher enterCourse enterCourseTeacher changeCourseRestrictions",
-//     "loginAsStudent loginAsTeacher enterCourseTeacher enterCourse changeCourseRestrictions",
-//     "loginAsStudent loginAsTeacher enterCourseTeacher changeCourseRestrictions enterCourse",
-//     "loginAsTeacher loginAsStudent enterCourse enterCourseTeacher changeCourseRestrictions",
-//     "loginAsTeacher loginAsStudent enterCourseTeacher enterCourse changeCourseRestrictions",
-//     "loginAsTeacher loginAsStudent enterCourseTeacher changeCourseRestrictions enterCourse",
-//     "loginAsTeacher enterCourseTeacher loginAsStudent enterCourse changeCourseRestrictions",
-//     "loginAsTeacher enterCourseTeacher loginAsStudent changeCourseRestrictions enterCourse",
-//     "loginAsTeacher enterCourseTeacher changeCourseRestrictions loginAsStudent enterCourse"]
-const GOALS = g;
+const GOALS = g;    // we create the GOALS array that contains all possible interleavings of actions1 and actions2 that have enterSurvey before changeCourseRestrictions and the ones that have enterSurvey after changeCourseRestrictions
 
 const makeGoals = function(){
     return [ [ any(/Howdy/), any(/Venus/) ],
